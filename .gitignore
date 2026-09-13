@@ -1,0 +1,10 @@
+# Build-Ergebnisse
+bin/
+obj/
+
+# Rider / JetBrains
+.idea/
+*.user
+
+# macOS
+.DS_Store
