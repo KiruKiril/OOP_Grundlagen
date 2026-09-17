@@ -40,10 +40,6 @@ internal class Program
                 case "7":
                     Aufgabe7_Json.Aufgabe7.Ausfuehren();
                     break;
-                case "a":
-                case "A":
-                    AlleAusfuehren();
-                    break;
                 case "0":
                     weiter = false;
                     break;
@@ -70,20 +66,8 @@ internal class Program
         Console.WriteLine("5  Erfassung über die Konsole");
         Console.WriteLine("6  byValue / byReference");
         Console.WriteLine("7  JSON speichern und laden");
-        Console.WriteLine("a  alle ausser Aufgabe 5");
         Console.WriteLine("0  Beenden");
         Console.Write("\nAuswahl: ");
-    }
-
-    // Aufgabe 5 wartet auf Eingaben und laeuft deshalb nicht mit.
-    private static void AlleAusfuehren()
-    {
-        Aufgabe1_Buch.Aufgabe1.Ausfuehren();
-        Aufgabe2_Zoo.Aufgabe2.Ausfuehren();
-        Aufgabe3_Fallbeispiel.Aufgabe3.Ausfuehren();
-        Aufgabe4_Eigenschaften.Aufgabe4.Ausfuehren();
-        Aufgabe6_WertReferenz.Aufgabe6.Ausfuehren();
-        Aufgabe7_Json.Aufgabe7.Ausfuehren();
     }
 
     private static void Warten()
