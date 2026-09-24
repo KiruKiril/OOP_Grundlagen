@@ -4,7 +4,7 @@ internal class Aufgabe1
 {
     public static void Ausfuehren()
     {
-        Console.WriteLine("=== Aufgabe 1: Methoden im Fallbeispiel ===\n");
+        Console.WriteLine("=== Aufgabe 1: Methoden im Fallbeispiel ===");
 
         Fahrschule schule = Beispieldaten.Fahrschule();
 
