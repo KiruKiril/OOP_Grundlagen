@@ -8,3 +8,6 @@ obj/
 
 # macOS
 .DS_Store
+
+# Word-Sperrdateien
+~$*
