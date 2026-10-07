@@ -6,7 +6,8 @@ internal class Aufgabe4
     {
         Console.WriteLine("=== Aufgabe 4: Klasse Konto kapseln und testen ===\n");
 
-        Bankkonto konto = new Bankkonto("CH93 0076 2011 6238 5295 7", 1000m);
+        Bankkonto konto = new Bankkonto("CH93 XXXX XXXX XXXX 2957");
+        konto.Einzahlen(1000m, "Starteinlage");
         Console.WriteLine($"Startsaldo: {konto.Saldo:0.00} CHF\n");
 
         Console.WriteLine("Gültige Werte:");
@@ -29,7 +30,7 @@ internal class Aufgabe4
     {
         try
         {
-            konto.Einzahlen(betrag);
+            konto.Einzahlen(betrag, "Einzahlung");
             Console.WriteLine($"  Einzahlen {betrag,9:0.00}: neuer Saldo {konto.Saldo:0.00} CHF");
         }
         catch (ArgumentOutOfRangeException ex)
@@ -42,7 +43,7 @@ internal class Aufgabe4
     {
         try
         {
-            konto.Abheben(betrag);
+            konto.Abheben(betrag, "Bezug");
             Console.WriteLine($"  Abheben   {betrag,9:0.00}: neuer Saldo {konto.Saldo:0.00} CHF");
         }
         catch (ArgumentOutOfRangeException ex)

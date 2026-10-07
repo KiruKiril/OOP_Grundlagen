@@ -4,7 +4,7 @@ internal class Beispieldaten
 {
     public static Fahrschule Fahrschule()
     {
-        Fahrlehrer marco = new Fahrlehrer("Marco Bianchi", 95.00m,
+        Fahrlehrer marco = new Fahrlehrer("Marco Bianchi", 90.00m,
             new List<string> { "B", "A" });
         marco.Geburtsdatum = new DateTimeOffset(1980, 3, 14, 0, 0, 0, TimeSpan.Zero);
         marco.Telefon = "079 111 22 33";
@@ -17,6 +17,8 @@ internal class Beispieldaten
         Fahrschueler luca = new Fahrschueler("Luca Rossi",
             new DateTimeOffset(2006, 6, 21, 0, 0, 0, TimeSpan.Zero),
             "luca.rossi@example.ch", true);
+
+
 
         Fahrschueler mia = new Fahrschueler("Mia Huber",
             new DateTimeOffset(2009, 1, 9, 0, 0, 0, TimeSpan.Zero));
@@ -46,6 +48,21 @@ internal class Beispieldaten
 
         schule.StundePlanen(stunde1);
         schule.StundePlanen(stunde2);
+
+        // Luca hat diese acht Stunden hinter sich, alle ohne Autobahn.
+        string[] themen =
+        {
+            "Fahrzeugkunde", "Anfahren und Schalten", "Innerorts", "Kreisel",
+            "Rückwärts parkieren", "Ausserorts", "Nachtfahrt", "Gefahrenlehre"
+        };
+
+        for (int i = 0; i < themen.Length; i++)
+        {
+            Fahrstunde vergangen = new Fahrstunde(luca, marco, golf,
+                DateTimeOffset.Now.AddDays(i - themen.Length), 90);
+            vergangen.Thema = themen[i];
+            vergangen.Durchfuehren(30);
+        }
 
         return schule;
     }

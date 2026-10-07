@@ -17,6 +17,7 @@ internal class Aufgabe5
         Fahrzeug golf = new Fahrzeug("VW", "Golf", "ZH 123 456", 2021, 48200,
             "Handschaltung");
 
+        Console.WriteLine($"Fahrzeug: {golf.Bezeichnung}");
         Console.WriteLine($"Start: {golf.KilometerStand} km, " +
                           $"letzte Änderung {golf.LetzteAenderung:HH:mm:ss}");
 

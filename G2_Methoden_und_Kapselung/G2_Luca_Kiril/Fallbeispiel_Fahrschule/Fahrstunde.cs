@@ -19,6 +19,7 @@ internal class Fahrstunde
     public Fahrzeug Fahrzeug { get; private set; }
     public DateTimeOffset Beginn { get; private set; }
     public string Thema { get; set; }
+    public bool AufAutobahn { get; set; }
 
     public int DauerMinuten
     {
@@ -35,26 +36,14 @@ internal class Fahrstunde
         }
     }
 
-    public DateTimeOffset Ende
-    {
-        get { return Beginn.AddMinutes(dauerMinuten); }
-    }
-
     public decimal Kosten()
     {
         return Lehrer.BerechneHonorar(dauerMinuten);
     }
 
-    // Wird die Stunde durchgefuehrt, wachsen Kilometerstand und Stundenkonto.
     public void Durchfuehren(int gefahreneKilometer)
     {
         Fahrzeug.KilometerFahren(gefahreneKilometer);
-        Schueler.StundeGutschreiben();
-    }
-
-    public string Beschreibung()
-    {
-        return $"{Beginn:dd.MM.yyyy HH:mm} bis {Ende:HH:mm}, {Schueler.Name} " +
-               $"bei {Lehrer.Name} im {Fahrzeug.Bezeichnung}";
+        Schueler.StundeEintragen(this);
     }
 }

@@ -6,51 +6,43 @@ internal class Aufgabe2
     {
         Console.WriteLine("=== Aufgabe 2: Konstruktoren mit Überladung ===\n");
 
-        // Kurzer Konstruktor: nur Name und Geburtsdatum
-        Fahrschueler mia = new Fahrschueler("Mia Huber",
-            new DateTimeOffset(2009, 1, 9, 0, 0, 0, TimeSpan.Zero));
+        Fahrschule schule = Beispieldaten.Fahrschule();
+        Console.WriteLine($"{schule.Name} hat {schule.AnzahlSchueler} Schüler.\n");
 
-        // Langer Konstruktor: setzt zusätzlich E-Mail und Lernfahrausweis
-        Fahrschueler luca = new Fahrschueler("Luca Rossi",
-            new DateTimeOffset(2006, 6, 21, 0, 0, 0, TimeSpan.Zero),
-            "luca.rossi@example.ch", true);
+        Fahrschueler nina = new Fahrschueler("Nina Frei",
+            new DateTimeOffset(2007, 3, 15, 0, 0, 0, TimeSpan.Zero));
 
-        Console.WriteLine("Zwei Schüler, zwei verschiedene Konstruktoren:");
-        Ausgeben(mia);
-        Ausgeben(luca);
+        schule.SchuelerAufnehmen(nina);
 
-        // Dasselbe beim Fahrzeug
-        Fahrzeug neuwagen = new Fahrzeug("Skoda", "Fabia");
-        Fahrzeug bestand = new Fahrzeug("VW", "Golf", "ZH 123 456", 2021, 48200,
-            "Handschaltung");
+        Console.WriteLine("Anruf: Nina Frei meldet sich an.");
+        Ausgeben(nina);
 
-        Console.WriteLine("Zwei Fahrzeuge, zwei verschiedene Konstruktoren:");
-        Console.WriteLine($"  {neuwagen.Bezeichnung}, {neuwagen.KilometerStand} km");
-        Console.WriteLine($"  {bestand.Bezeichnung}, {bestand.KilometerStand} km");
+        Fahrschueler jonas = new Fahrschueler("Jonas Weber",
+            new DateTimeOffset(2008, 5, 20, 0, 0, 0, TimeSpan.Zero),
+            "jonas.weber@example.ch", true);
 
-        // Und bei der Fahrschule selbst
-        Fahrschule ohneAdresse = new Fahrschule("Fahrschule Drive Easy");
-        Fahrschule mitAdresse = new Fahrschule("Fahrschule Drive Easy",
-            "Bahnhofstrasse 10, 8001 Zürich");
+        schule.SchuelerAufnehmen(jonas);
 
-        Console.WriteLine("\nZwei Fahrschulen, zwei verschiedene Konstruktoren:");
-        Console.WriteLine($"  {ohneAdresse.Name}, Adresse: " +
-                          $"{(ohneAdresse.Adresse == null ? "nicht gesetzt" : ohneAdresse.Adresse)}");
-        Console.WriteLine($"  {mitAdresse.Name}, Adresse: {mitAdresse.Adresse}");
+        Console.WriteLine("\nAnmeldeformular von Jonas Weber ist vollständig.");
+        Ausgeben(jonas);
 
-        Console.WriteLine("\nDer lange Konstruktor ruft mit this(...) den kurzen auf.");
-        Console.WriteLine("So steht die gemeinsame Zuweisung nur an einer Stelle.");
-        Console.WriteLine("Sobald eine Klasse einen eigenen Konstruktor hat, gibt es");
-        Console.WriteLine("kein new Fahrschueler() ohne Parameter mehr.");
+        Console.WriteLine($"\nKartei: {schule.AnzahlSchueler} Schüler.");
         Console.WriteLine();
     }
 
     private static void Ausgeben(Fahrschueler schueler)
     {
-        string mail = schueler.Email == null ? "nicht gesetzt" : schueler.Email;
-        string ausweis = schueler.HatLernfahrausweis ? "ja" : "nein";
+        Console.WriteLine($"  {schueler.Name}, {schueler.Alter} Jahre");
+        Console.WriteLine($"  Aufgenommen am {schueler.RegistriertAm:dd.MM.yyyy HH:mm}");
 
-        Console.WriteLine($"  {schueler.Name}, {schueler.Alter} Jahre, " +
-                          $"E-Mail: {mail}, Lernfahrausweis: {ausweis}");
+        List<string> fehlt = schueler.FehlendeAngaben();
+
+        if (fehlt.Count == 0)
+        {
+            Console.WriteLine("  Angaben vollständig, Anmeldung kann abgeschlossen werden.");
+            return;
+        }
+
+        Console.WriteLine($"  Es fehlt noch: {string.Join(", ", fehlt)}");
     }
 }

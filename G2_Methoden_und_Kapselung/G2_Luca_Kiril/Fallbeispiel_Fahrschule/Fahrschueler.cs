@@ -3,17 +3,19 @@ namespace G2_Luca_Kiril.Fallbeispiel_Fahrschule;
 internal class Fahrschueler
 {
     private readonly DateTimeOffset registriertAm = DateTimeOffset.Now;
+    private readonly List<Fahrstunde> fahrstunden;
     private string email;
-    private int anzahlAbsolvierterStunden;
 
-    // Kurzer Konstruktor: nur das Nötigste.
     public Fahrschueler(string name, DateTimeOffset geburtsdatum)
     {
         Name = name;
         Geburtsdatum = geburtsdatum;
+
+        // Im Konstruktor erzeugt, damit die Klasse ab dem ersten
+        // Moment funktioniert und keine leere Referenz zurueckbleibt.
+        fahrstunden = new List<Fahrstunde>();
     }
 
-    // Überladung: ruft mit this(...) den kurzen Konstruktor auf und ergänzt den Rest.
     public Fahrschueler(string name, DateTimeOffset geburtsdatum, string email,
                         bool hatLernfahrausweis)
         : this(name, geburtsdatum)
@@ -48,7 +50,23 @@ internal class Fahrschueler
 
     public int AnzahlAbsolvierterStunden
     {
-        get { return anzahlAbsolvierterStunden; }
+        get { return fahrstunden.Count; }
+    }
+
+    public bool HatAutobahnGefahren
+    {
+        get
+        {
+            foreach (Fahrstunde stunde in fahrstunden)
+            {
+                if (stunde.AufAutobahn)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 
     public int Alter
@@ -56,19 +74,48 @@ internal class Fahrschueler
         get { return Alterrechner.Jahre(Geburtsdatum); }
     }
 
+    // Ohne Autobahnfahrt keine Prüfung, egal wie viele Fahrstunden
     public bool IstPruefungsreif
     {
-        get { return HatLernfahrausweis && Alter >= 18 && anzahlAbsolvierterStunden >= 10; }
+        get
+        {
+            return HatLernfahrausweis
+                   && Alter >= 18
+                   && fahrstunden.Count >= 10
+                   && HatAutobahnGefahren;
+        }
     }
 
-    public void StundeGutschreiben()
+    public List<string> FehlendeAngaben()
     {
-        anzahlAbsolvierterStunden++;
+        List<string> fehlt = new List<string>();
+
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            fehlt.Add("E-Mail");
+        }
+
+        if (!HatLernfahrausweis)
+        {
+            fehlt.Add("Lernfahrausweis");
+        }
+
+        return fehlt;
     }
 
-    public int FehlendeStundenBisPruefung(int benoetigt)
+    public void StundeEintragen(Fahrstunde stunde)
     {
-        int offen = benoetigt - anzahlAbsolvierterStunden;
-        return offen > 0 ? offen : 0;
+        if (stunde == null)
+        {
+            throw new ArgumentNullException(nameof(stunde));
+        }
+
+        fahrstunden.Add(stunde);
+    }
+
+    // Kopie nach aussen, damit niemand den Nachweis von aussen umschreibt.
+    public List<Fahrstunde> Fahrstunden()
+    {
+        return new List<Fahrstunde>(fahrstunden);
     }
 }

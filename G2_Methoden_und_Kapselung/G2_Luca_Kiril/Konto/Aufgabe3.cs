@@ -1,4 +1,4 @@
-using G2_Luca_Kiril.Tierpflege;
+using G2_Luca_Kiril.Fallbeispiel_Fahrschule;
 
 namespace G2_Luca_Kiril.Konto;
 
@@ -8,56 +8,57 @@ internal class Aufgabe3
     {
         Console.WriteLine("=== Aufgabe 3: Eine 1-m-Beziehung kapseln ===\n");
 
-        Bankkonto konto = new Bankkonto("CH93 0076 2011 6238 5295 7", 500m);
-        konto.Einzahlen(250m);
-        konto.Abheben(120m);
+        Bankkonto konto = new Bankkonto("CH93 XXXX XXXX XXXX 2957");
+        Console.WriteLine($"Konto eröffnet: {konto.Iban}, Saldo {konto.Saldo:0.00} CHF\n");
 
-        Console.WriteLine($"Konto {konto.Iban}");
-        Console.WriteLine($"Saldo: {konto.Saldo:0.00} CHF");
-        Console.WriteLine($"Transaktionen: {konto.AnzahlTransaktionen}\n");
+        konto.Einzahlen(500m, "Lohn", DateTimeOffset.Now.AddDays(-12));
+        konto.Abheben(135m, "Fahrstunde", DateTimeOffset.Now.AddDays(-5));
+        konto.Abheben(135m, "Fahrstunde");
 
-        foreach (Transaktion transaktion in konto.Auszug())
+        foreach (Transaktion buchung in konto.Auszug())
         {
-            Console.WriteLine($"  {transaktion.Beschreibung()}");
+            Console.WriteLine($"  {buchung.Zeile()}");
         }
 
-        KopieZeigen(konto);
-        Tierbeispiel();
+        Console.WriteLine($"\nSaldo: {konto.Saldo:0.00} CHF aus " +
+                          $"{konto.AnzahlTransaktionen} Buchungen");
+
+        AuszugIstKopie(konto);
+        DasselbeMusterInDerFahrschule();
     }
 
-    // Der Auszug ist eine Kopie. Wer daran herumraeumt, trifft das Konto nicht.
-    private static void KopieZeigen(Bankkonto konto)
+    private static void AuszugIstKopie(Bankkonto konto)
     {
-        Console.WriteLine("\nVersuch, den Auszug von aussen zu manipulieren:");
+        List<Transaktion> abgeholt = konto.Auszug();
+        abgeholt.Clear();
 
-        List<Transaktion> kopie = konto.Auszug();
-        kopie.Clear();
-
-        Console.WriteLine($"  Kopie nach Clear: {kopie.Count} Einträge");
-        Console.WriteLine($"  Konto unverändert: {konto.AnzahlTransaktionen} Transaktionen");
-        Console.WriteLine("  Von aussen ist nicht erkennbar, ob intern eine Liste,");
-        Console.WriteLine("  ein Array oder eine Queue steckt. Die Schnittstelle bleibt gleich.");
+        Console.WriteLine("\nAuszug abgeholt und darin alle Zeilen gelöscht:");
+        Console.WriteLine($"  im abgeholten Auszug: {abgeholt.Count} Buchungen");
+        Console.WriteLine($"  im Konto selbst:      {konto.AnzahlTransaktionen} Buchungen");
     }
 
-    private static void Tierbeispiel()
+    // Gleiches Muster, anderes Thema
+    private static void DasselbeMusterInDerFahrschule()
     {
-        Console.WriteLine("\nDasselbe Muster am eigenen Beispiel: Tier und Fütterungen\n");
+        Fahrschule schule = Beispieldaten.Fahrschule();
+        Fahrschueler luca = schule.SucheSchueler("Luca Rossi");
 
-        Tier simba = new Tier("Kibo", "Löwe");
-        simba.Fuettern(4500, "Rindfleisch");
-        simba.Fuettern(3800, "Pferdefleisch");
-        simba.Fuettern(4200, "Rindfleisch");
+        List<Fahrstunde> alle = luca.Fahrstunden();
 
-        Console.WriteLine($"{simba.Name} ({simba.Art})");
-        Console.WriteLine($"Fütterungen: {simba.AnzahlFuetterungen}");
-        Console.WriteLine($"Gesamtmenge: {simba.GesamtmengeGramm()} g");
-        Console.WriteLine($"Letzte Fütterung: {simba.LetzteFuetterung:HH:mm:ss}\n");
+        Console.WriteLine($"\n{luca.Name} hat {alle.Count} Fahrstunden, " +
+                          $"die drei letzten:");
 
-        foreach (Fuetterung fuetterung in simba.Fuetterungen())
+        for (int i = alle.Count - 3; i < alle.Count; i++)
         {
-            Console.WriteLine($"  {fuetterung.Beschreibung()}");
+            Console.WriteLine($"  {alle[i].Beginn:dd.MM.yyyy}  {alle[i].Thema}");
         }
 
+        List<Fahrstunde> nachweis = luca.Fahrstunden();
+        nachweis.Clear();
+
+        Console.WriteLine($"\nNachweis abgeholt und geleert:");
+        Console.WriteLine($"  im abgeholten Nachweis: {nachweis.Count} Fahrstunden");
+        Console.WriteLine($"  bei Luca selbst:        {luca.AnzahlAbsolvierterStunden} Fahrstunden");
         Console.WriteLine();
     }
 }

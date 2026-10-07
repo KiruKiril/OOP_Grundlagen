@@ -1,7 +1,5 @@
 namespace G2_Luca_Kiril.Konto;
 
-// Aufgaben 3 und 4: Der Saldo und die Transaktionen sind privat.
-// Nach aussen gibt es nur Einzahlen, Abheben und Lesezugriffe.
 internal class Bankkonto
 {
     private decimal saldo;
@@ -12,24 +10,7 @@ internal class Bankkonto
         Iban = iban;
         saldo = 0m;
 
-        // Im Konstruktor initialisiert, damit die Klasse ab dem ersten
-        // Moment funktioniert und keine leere Referenz zurueckbleibt.
         transaktionen = new List<Transaktion>();
-    }
-
-    public Bankkonto(string iban, decimal startsaldo)
-        : this(iban)
-    {
-        if (startsaldo < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(startsaldo),
-                "Der Startsaldo darf nicht negativ sein.");
-        }
-
-        if (startsaldo > 0)
-        {
-            Einzahlen(startsaldo);
-        }
     }
 
     public string Iban { get; private set; }
@@ -44,7 +25,13 @@ internal class Bankkonto
         get { return transaktionen.Count; }
     }
 
-    public void Einzahlen(decimal betrag)
+    // Kurze Variante bucht auf heute, die lange nimmt das Datum entgegen.
+    public void Einzahlen(decimal betrag, string zweck)
+    {
+        Einzahlen(betrag, zweck, DateTimeOffset.Now);
+    }
+
+    public void Einzahlen(decimal betrag, string zweck, DateTimeOffset datum)
     {
         if (betrag <= 0)
         {
@@ -53,10 +40,15 @@ internal class Bankkonto
         }
 
         saldo += betrag;
-        transaktionen.Add(new Transaktion(betrag, "Einzahlung"));
+        transaktionen.Add(new Transaktion(betrag, zweck, datum));
     }
 
-    public void Abheben(decimal betrag)
+    public void Abheben(decimal betrag, string zweck)
+    {
+        Abheben(betrag, zweck, DateTimeOffset.Now);
+    }
+
+    public void Abheben(decimal betrag, string zweck, DateTimeOffset datum)
     {
         if (betrag <= 0)
         {
@@ -70,7 +62,7 @@ internal class Bankkonto
         }
 
         saldo -= betrag;
-        transaktionen.Add(new Transaktion(-betrag, "Auszahlung"));
+        transaktionen.Add(new Transaktion(-betrag, zweck, datum));
     }
 
     // Kopie nach aussen. Wer sie veraendert, veraendert nur die Kopie.

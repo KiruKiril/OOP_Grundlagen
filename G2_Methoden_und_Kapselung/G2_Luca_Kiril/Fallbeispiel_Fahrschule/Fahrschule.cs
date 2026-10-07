@@ -7,14 +7,9 @@ internal class Fahrschule
     private readonly List<Fahrzeug> fahrzeuge = new List<Fahrzeug>();
     private readonly List<Fahrstunde> stundenplan = new List<Fahrstunde>();
 
-    public Fahrschule(string name)
+    public Fahrschule(string name, string adresse)
     {
         Name = name;
-    }
-
-    public Fahrschule(string name, string adresse)
-        : this(name)
-    {
         Adresse = adresse;
     }
 
@@ -77,26 +72,8 @@ internal class Fahrschule
         return null;
     }
 
-    public decimal Gesamtumsatz()
-    {
-        decimal summe = 0m;
-
-        foreach (Fahrstunde stunde in stundenplan)
-        {
-            summe += stunde.Kosten();
-        }
-
-        return summe;
-    }
-
-    // Kopie der Liste, damit von aussen niemand den Stundenplan umbaut.
     public List<Fahrstunde> Stundenplan()
     {
         return new List<Fahrstunde>(stundenplan);
-    }
-
-    public List<Fahrzeug> Fahrzeuge()
-    {
-        return new List<Fahrzeug>(fahrzeuge);
     }
 }

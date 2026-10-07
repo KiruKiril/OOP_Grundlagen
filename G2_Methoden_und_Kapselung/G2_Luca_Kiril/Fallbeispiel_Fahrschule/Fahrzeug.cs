@@ -12,16 +12,11 @@ internal class Fahrzeug
     private int kilometerStand;
     private DateTimeOffset letzteAenderung = DateTimeOffset.Now;
 
-    public Fahrzeug(string marke, string modell)
+    public Fahrzeug(string marke, string modell, string kontrollschild,
+                    int baujahr, int kilometerStand, string getriebe)
     {
         this.marke = marke;
         this.modell = modell;
-    }
-
-    public Fahrzeug(string marke, string modell, string kontrollschild,
-                    int baujahr, int kilometerStand, string getriebe)
-        : this(marke, modell)
-    {
         this.kontrollschild = kontrollschild;
         Baujahr = baujahr;
         Getriebe = getriebe;
@@ -75,11 +70,6 @@ internal class Fahrzeug
         }
     }
 
-    public int AlterInJahren
-    {
-        get { return DateTimeOffset.Now.Year - baujahr; }
-    }
-
     // Einzige Tuer nach innen: prueft den Wert und fuehrt danach den
     // Zeitstempel nach (Trigger).
     public void KilometerFahren(int kilometer)
@@ -92,10 +82,5 @@ internal class Fahrzeug
 
         kilometerStand += kilometer;
         letzteAenderung = DateTimeOffset.Now;
-    }
-
-    public bool BrauchtService()
-    {
-        return kilometerStand > 100000 || AlterInJahren > 8;
     }
 }

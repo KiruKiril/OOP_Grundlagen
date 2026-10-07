@@ -2,19 +2,21 @@ namespace G2_Luca_Kiril.Konto;
 
 internal class Transaktion
 {
-    public Transaktion(decimal betrag, string art)
+    public Transaktion(decimal betrag, string zweck, DateTimeOffset datum)
     {
         Betrag = betrag;
-        Art = art;
-        Datum = DateTimeOffset.Now;
+        Zweck = zweck;
+        Datum = datum;
     }
 
     public decimal Betrag { get; private set; }
-    public string Art { get; private set; }
+    public string Zweck { get; private set; }
     public DateTimeOffset Datum { get; private set; }
 
-    public string Beschreibung()
+    public string Zeile()
     {
-        return $"{Datum:dd.MM.yyyy HH:mm:ss}  {Art,-10} {Betrag,10:0.00} CHF";
+        string vorzeichen = Betrag < 0 ? "-" : "+";
+
+        return $"{Datum:dd.MM.yyyy}  {vorzeichen} {Math.Abs(Betrag),8:0.00}  {Zweck}";
     }
 }

@@ -8,42 +8,47 @@ internal class Aufgabe1
 
         Fahrschule schule = Beispieldaten.Fahrschule();
 
-        // Methode mit Parameter und Rueckgabewert
+        // Methode mit Parameter und Rückgabewert
         Fahrschueler luca = schule.SucheSchueler("Luca Rossi");
-        Console.WriteLine($"SucheSchueler(\"Luca Rossi\") liefert: {luca.Name}");
-        Console.WriteLine($"SucheSchueler(\"Niemand\") liefert:    " +
-                          $"{(schule.SucheSchueler("Niemand") == null ? "null" : "Treffer")}");
+        Fahrlehrer marco = schule.SucheLehrerFuerKategorie("B");
+        Fahrzeug golf = schule.Stundenplan()[0].Fahrzeug;
 
-        Fahrlehrer fuerC = schule.SucheLehrerFuerKategorie("C");
-        Console.WriteLine($"Lehrer für Kategorie C: {fuerC.Name}");
-        Console.WriteLine($"Marco kann Kategorie C: " +
-                          $"{schule.SucheLehrerFuerKategorie("A").KannKategorie("C")}");
+        Console.WriteLine($"{luca.Name} möchte zur Führerprüfung.");
+        Stand(luca);
 
-        // Methode, die rechnet
-        Console.WriteLine($"\nHonorar für 90 Minuten bei {fuerC.Name}: " +
-                          $"{fuerC.BerechneHonorar(90):0.00} CHF");
-        Console.WriteLine($"Gesamtumsatz der Fahrschule: {schule.Gesamtumsatz():0.00} CHF");
+        Fahrstunde(luca, marco, golf, 1, "Innerorts", false);
+        Fahrstunde(luca, marco, golf, 2, "Kreisel und Vortritt", false);
+        Fahrstunde(luca, marco, golf, 3, "Autobahn", true);
 
-        // Methode, die den Zustand mehrerer Objekte veraendert
-        Fahrstunde stunde = schule.Stundenplan()[0];
-        Console.WriteLine($"\n{stunde.Beschreibung()}");
-        Console.WriteLine($"vorher:  {stunde.Fahrzeug.KilometerStand} km, " +
-                          $"{Stunden(stunde.Schueler.AnzahlAbsolvierterStunden)}");
-
-        stunde.Durchfuehren(45);
-
-        Console.WriteLine($"nachher: {stunde.Fahrzeug.KilometerStand} km, " +
-                          $"{Stunden(stunde.Schueler.AnzahlAbsolvierterStunden)}");
-
-        Console.WriteLine($"\nNoch fehlende Stunden bis zur Prüfung: " +
-                          $"{luca.FehlendeStundenBisPruefung(10)}");
-        Console.WriteLine($"Braucht der {stunde.Fahrzeug.Bezeichnung} Service? " +
-                          $"{stunde.Fahrzeug.BrauchtService()}");
+        Console.WriteLine($"\n{luca.Name} kann zur Prüfung antreten.");
         Console.WriteLine();
     }
 
-    private static string Stunden(int anzahl)
+    private static void Fahrstunde(Fahrschueler schueler, Fahrlehrer lehrer,
+                                   Fahrzeug fahrzeug, int nummer, string thema,
+                                   bool aufAutobahn)
     {
-        return anzahl == 1 ? "1 Stunde" : $"{anzahl} Stunden";
+        Fahrstunde stunde = new Fahrstunde(schueler, lehrer, fahrzeug,
+            DateTimeOffset.Now.AddDays(nummer), 90);
+        stunde.Thema = thema;
+        stunde.AufAutobahn = aufAutobahn;
+
+        // Methode, die rechnet
+        Console.WriteLine($"\nFahrstunde {nummer}: {thema}, " +
+                          $"{stunde.DauerMinuten} Minuten für {stunde.Kosten():0.00} CHF");
+
+        // Methode, die den Zustand verändert
+        stunde.Durchfuehren(45);
+
+        Stand(schueler);
+    }
+
+    private static void Stand(Fahrschueler schueler)
+    {
+        string autobahn = schueler.HatAutobahnGefahren ? "ja" : "nein";
+        string reif = schueler.IstPruefungsreif ? "ja" : "nein";
+
+        Console.WriteLine($"Stand: {schueler.AnzahlAbsolvierterStunden} Fahrstunden, " +
+                          $"Autobahn: {autobahn}, prüfungsreif: {reif}");
     }
 }

@@ -4,15 +4,10 @@ internal class Fahrlehrer
 {
     private decimal stundenansatz;
 
-    public Fahrlehrer(string name, decimal stundenansatz)
+    public Fahrlehrer(string name, decimal stundenansatz, List<string> kategorien)
     {
         Name = name;
         Stundenansatz = stundenansatz;
-    }
-
-    public Fahrlehrer(string name, decimal stundenansatz, List<string> kategorien)
-        : this(name, stundenansatz)
-    {
         Kategorien = kategorien;
     }
 
