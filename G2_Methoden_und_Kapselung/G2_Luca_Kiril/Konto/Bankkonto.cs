@@ -26,12 +26,12 @@ internal class Bankkonto
     }
 
     // Kurze Variante bucht auf heute, die lange nimmt das Datum entgegen.
-    public void Einzahlen(int betrag, string zweck)
+    public void Einzahlen(int betrag)
     {
-        Einzahlen(betrag, zweck, DateTimeOffset.Now);
+        Einzahlen(betrag, DateTimeOffset.Now);
     }
 
-    public void Einzahlen(int betrag, string zweck, DateTimeOffset datum)
+    public void Einzahlen(int betrag, DateTimeOffset datum)
     {
         if (betrag <= 0)
         {
@@ -40,15 +40,15 @@ internal class Bankkonto
         }
 
         saldo += betrag;
-        transaktionen.Add(new Transaktion(betrag, zweck, datum));
+        transaktionen.Add(new Transaktion(betrag, datum));
     }
 
-    public void Abheben(int betrag, string zweck)
+    public void Abheben(int betrag)
     {
-        Abheben(betrag, zweck, DateTimeOffset.Now);
+        Abheben(betrag, DateTimeOffset.Now);
     }
 
-    public void Abheben(int betrag, string zweck, DateTimeOffset datum)
+    public void Abheben(int betrag, DateTimeOffset datum)
     {
         if (betrag <= 0)
         {
@@ -62,7 +62,7 @@ internal class Bankkonto
         }
 
         saldo -= betrag;
-        transaktionen.Add(new Transaktion(-betrag, zweck, datum));
+        transaktionen.Add(new Transaktion(-betrag, datum));
     }
 
     // Kopie nach aussen. Wer sie veraendert, veraendert nur die Kopie.

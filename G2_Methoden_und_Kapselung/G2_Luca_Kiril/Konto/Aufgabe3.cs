@@ -11,9 +11,9 @@ internal class Aufgabe3
         Bankkonto konto = new Bankkonto("CH93 XXXX XXXX XXXX 2957");
         Console.WriteLine($"Konto eröffnet: {konto.Iban}, Saldo {Geld.AlsText(konto.Saldo)}\n");
 
-        konto.Einzahlen(50000, "Lohn", DateTimeOffset.Now.AddDays(-12));
-        konto.Abheben(13500, "Fahrstunde", DateTimeOffset.Now.AddDays(-5));
-        konto.Abheben(13500, "Fahrstunde");
+        konto.Einzahlen(50000, DateTimeOffset.Now.AddDays(-12));
+        konto.Abheben(13500, DateTimeOffset.Now.AddDays(-5));
+        konto.Abheben(13500);
 
         foreach (Transaktion buchung in konto.Auszug())
         {
