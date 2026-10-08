@@ -36,7 +36,7 @@ internal class Fahrstunde
         }
     }
 
-    public decimal Kosten()
+    public int Kosten()
     {
         return Lehrer.BerechneHonorar(dauerMinuten);
     }

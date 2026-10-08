@@ -4,12 +4,12 @@ internal class Beispieldaten
 {
     public static Fahrschule Fahrschule()
     {
-        Fahrlehrer marco = new Fahrlehrer("Marco Bianchi", 90.00m,
+        Fahrlehrer marco = new Fahrlehrer("Marco Bianchi", 9000,
             new List<string> { "B", "A" });
         marco.Geburtsdatum = new DateTimeOffset(1980, 3, 14, 0, 0, 0, TimeSpan.Zero);
         marco.Telefon = "079 111 22 33";
 
-        Fahrlehrer sarah = new Fahrlehrer("Sarah Keller", 105.00m,
+        Fahrlehrer sarah = new Fahrlehrer("Sarah Keller", 10500,
             new List<string> { "B", "C" });
         sarah.Geburtsdatum = new DateTimeOffset(1991, 11, 2, 0, 0, 0, TimeSpan.Zero);
         sarah.Telefon = "079 444 55 66";

@@ -2,9 +2,9 @@ namespace G2_Luca_Kiril.Fallbeispiel_Fahrschule;
 
 internal class Fahrlehrer
 {
-    private decimal stundenansatz;
+    private int stundenansatz;
 
-    public Fahrlehrer(string name, decimal stundenansatz, List<string> kategorien)
+    public Fahrlehrer(string name, int stundenansatz, List<string> kategorien)
     {
         Name = name;
         Stundenansatz = stundenansatz;
@@ -16,7 +16,7 @@ internal class Fahrlehrer
     public string Telefon { get; set; }
     public List<string> Kategorien { get; set; } = new List<string>();
 
-    public decimal Stundenansatz
+    public int Stundenansatz
     {
         get { return stundenansatz; }
         set
@@ -36,8 +36,8 @@ internal class Fahrlehrer
         return Kategorien.Contains(kategorie);
     }
 
-    public decimal BerechneHonorar(int dauerMinuten)
+    public int BerechneHonorar(int dauerMinuten)
     {
-        return Stundenansatz / 60m * dauerMinuten;
+        return stundenansatz * dauerMinuten / 60;
     }
 }

@@ -2,20 +2,20 @@ namespace G2_Luca_Kiril.Konto;
 
 internal class Bankkonto
 {
-    private decimal saldo;
+    private int saldo;
     private readonly List<Transaktion> transaktionen;
 
     public Bankkonto(string iban)
     {
         Iban = iban;
-        saldo = 0m;
+        saldo = 0;
 
         transaktionen = new List<Transaktion>();
     }
 
     public string Iban { get; private set; }
 
-    public decimal Saldo
+    public int Saldo
     {
         get { return saldo; }
     }
@@ -26,12 +26,12 @@ internal class Bankkonto
     }
 
     // Kurze Variante bucht auf heute, die lange nimmt das Datum entgegen.
-    public void Einzahlen(decimal betrag, string zweck)
+    public void Einzahlen(int betrag, string zweck)
     {
         Einzahlen(betrag, zweck, DateTimeOffset.Now);
     }
 
-    public void Einzahlen(decimal betrag, string zweck, DateTimeOffset datum)
+    public void Einzahlen(int betrag, string zweck, DateTimeOffset datum)
     {
         if (betrag <= 0)
         {
@@ -43,12 +43,12 @@ internal class Bankkonto
         transaktionen.Add(new Transaktion(betrag, zweck, datum));
     }
 
-    public void Abheben(decimal betrag, string zweck)
+    public void Abheben(int betrag, string zweck)
     {
         Abheben(betrag, zweck, DateTimeOffset.Now);
     }
 
-    public void Abheben(decimal betrag, string zweck, DateTimeOffset datum)
+    public void Abheben(int betrag, string zweck, DateTimeOffset datum)
     {
         if (betrag <= 0)
         {

@@ -7,56 +7,62 @@ internal class Aufgabe4
         Console.WriteLine("=== Aufgabe 4: Klasse Konto kapseln und testen ===\n");
 
         Bankkonto konto = new Bankkonto("CH93 XXXX XXXX XXXX 2957");
-        konto.Einzahlen(1000m, "Starteinlage");
-        Console.WriteLine($"Startsaldo: {konto.Saldo:0.00} CHF\n");
+        konto.Einzahlen(100000, "Starteinlage");
 
-        Console.WriteLine("Gültige Werte:");
-        Einzahlen(konto, 500m);
-        Abheben(konto, 200m);
+        Console.WriteLine($"Startsaldo: {Geld.AlsText(konto.Saldo)}\n");
 
-        Console.WriteLine("\nUngültige Werte:");
-        Einzahlen(konto, 0m);
-        Einzahlen(konto, -100m);
-        Abheben(konto, -50m);
-        Abheben(konto, 99999m);
+        Einzahlen(konto, 50000);
+        Abheben(konto, 20000);
+        Einzahlen(konto, 0);
+        Einzahlen(konto, -10000);
+        Abheben(konto, -5000);
+        Abheben(konto, 9999900);
 
-        Console.WriteLine($"\nEndsaldo: {konto.Saldo:0.00} CHF");
-        Console.WriteLine("Jeder abgelehnte Versuch hat den Saldo unberührt gelassen.");
-        Console.WriteLine("Ein öffentliches Feld Saldo hätte konto.Saldo = -5000 erlaubt.");
+        Console.WriteLine($"\nEndsaldo: {Geld.AlsText(konto.Saldo)}");
+        Console.WriteLine("Abgelehnte Versuche haben den Saldo nicht verändert.");
+
+        // Der Compiler lässt diese Zeile nicht zu, die Eigenschaft hat keinen Setter:
+        // konto.Saldo = -500000;
+
         Console.WriteLine();
     }
 
-    private static void Einzahlen(Bankkonto konto, decimal betrag)
+    private static void Einzahlen(Bankkonto konto, int rappen)
     {
         try
         {
-            konto.Einzahlen(betrag, "Einzahlung");
-            Console.WriteLine($"  Einzahlen {betrag,9:0.00}: neuer Saldo {konto.Saldo:0.00} CHF");
+            konto.Einzahlen(rappen, "Einzahlung");
+            Melden("Einzahlen", rappen, Geld.AlsText(konto.Saldo));
         }
         catch (ArgumentOutOfRangeException ex)
         {
-            Console.WriteLine($"  Einzahlen {betrag,9:0.00}: {Meldung(ex)}");
+            Melden("Einzahlen", rappen, Grund(ex));
         }
     }
 
-    private static void Abheben(Bankkonto konto, decimal betrag)
+    private static void Abheben(Bankkonto konto, int rappen)
     {
         try
         {
-            konto.Abheben(betrag, "Bezug");
-            Console.WriteLine($"  Abheben   {betrag,9:0.00}: neuer Saldo {konto.Saldo:0.00} CHF");
+            konto.Abheben(rappen, "Bezug");
+            Melden("Abheben", rappen, Geld.AlsText(konto.Saldo));
         }
         catch (ArgumentOutOfRangeException ex)
         {
-            Console.WriteLine($"  Abheben   {betrag,9:0.00}: {Meldung(ex)}");
+            Melden("Abheben", rappen, Grund(ex));
         }
         catch (InvalidOperationException ex)
         {
-            Console.WriteLine($"  Abheben   {betrag,9:0.00}: {ex.Message}");
+            Melden("Abheben", rappen, ex.Message);
         }
     }
 
-    private static string Meldung(ArgumentException ex)
+    private static void Melden(string aktion, int rappen, string ergebnis)
+    {
+        Console.WriteLine($"{aktion,-10}{Geld.AlsText(rappen),16}  ->  {ergebnis}");
+    }
+
+    private static string Grund(ArgumentException ex)
     {
         return ex.Message.Split('(')[0].Trim();
     }

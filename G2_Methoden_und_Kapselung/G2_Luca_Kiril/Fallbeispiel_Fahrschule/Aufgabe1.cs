@@ -35,7 +35,7 @@ internal class Aufgabe1
 
         // Methode, die rechnet
         Console.WriteLine($"\nFahrstunde {nummer}: {thema}, " +
-                          $"{stunde.DauerMinuten} Minuten für {stunde.Kosten():0.00} CHF");
+                          $"{stunde.DauerMinuten} Minuten für {Geld.AlsText(stunde.Kosten())}");
 
         // Methode, die den Zustand verändert
         stunde.Durchfuehren(45);
