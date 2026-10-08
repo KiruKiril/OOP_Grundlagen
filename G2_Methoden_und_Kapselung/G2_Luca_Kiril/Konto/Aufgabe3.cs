@@ -32,9 +32,14 @@ internal class Aufgabe3
         List<Transaktion> abgeholt = konto.Auszug();
         abgeholt.Clear();
 
-        Console.WriteLine("\nAuszug abgeholt und darin alle Zeilen gelöscht:");
-        Console.WriteLine($"  im abgeholten Auszug: {abgeholt.Count} Buchungen");
-        Console.WriteLine($"  im Konto selbst:      {konto.AnzahlTransaktionen} Buchungen");
+        Console.WriteLine($"\nAbgeholten Auszug geleert, er hat jetzt " +
+                          $"{abgeholt.Count} Buchungen.");
+        Console.WriteLine("Neuer Auszug direkt vom Konto:");
+
+        foreach (Transaktion buchung in konto.Auszug())
+        {
+            Console.WriteLine($"  {buchung.Zeile()}");
+        }
     }
 
     // Gleiches Muster, anderes Thema
@@ -56,7 +61,7 @@ internal class Aufgabe3
         List<Fahrstunde> nachweis = luca.Fahrstunden();
         nachweis.Clear();
 
-        Console.WriteLine($"\nNachweis abgeholt und geleert:");
+        Console.WriteLine($"Nachweis abgeholt und geleert:");
         Console.WriteLine($"  im abgeholten Nachweis: {nachweis.Count} Fahrstunden");
         Console.WriteLine($"  bei Luca selbst:        {luca.AnzahlAbsolvierterStunden} Fahrstunden");
         Console.WriteLine();

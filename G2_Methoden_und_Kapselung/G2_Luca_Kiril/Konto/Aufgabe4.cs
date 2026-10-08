@@ -19,10 +19,7 @@ internal class Aufgabe4
         Abheben(konto, 9999900);
 
         Console.WriteLine($"\nEndsaldo: {Geld.AlsText(konto.Saldo)}");
-        Console.WriteLine("Abgelehnte Versuche haben den Saldo nicht verändert.");
-
-        // Der Compiler lässt diese Zeile nicht zu, die Eigenschaft hat keinen Setter:
-        // konto.Saldo = -500000;
+        
 
         Console.WriteLine();
     }

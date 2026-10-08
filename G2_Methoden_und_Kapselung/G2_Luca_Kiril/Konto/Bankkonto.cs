@@ -25,7 +25,6 @@ internal class Bankkonto
         get { return transaktionen.Count; }
     }
 
-    // Kurze Variante bucht auf heute, die lange nimmt das Datum entgegen.
     public void Einzahlen(int betrag)
     {
         Einzahlen(betrag, DateTimeOffset.Now);
@@ -64,10 +63,7 @@ internal class Bankkonto
         saldo -= betrag;
         transaktionen.Add(new Transaktion(-betrag, datum));
     }
-
-    // Kopie nach aussen. Wer sie veraendert, veraendert nur die Kopie.
-    // Ob intern eine Liste, ein Array oder eine Queue steckt, bleibt
-    // das Geheimnis der Klasse.
+    
     public List<Transaktion> Auszug()
     {
         return new List<Transaktion>(transaktionen);
