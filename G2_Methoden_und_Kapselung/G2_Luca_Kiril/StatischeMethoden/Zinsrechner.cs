@@ -2,16 +2,18 @@ namespace G2_Luca_Kiril.StatischeMethoden;
 
 // Statische Methoden gehoeren zur Klasse, nicht zu einem Objekt.
 // Darum braucht es hier kein new Zinsrechner().
+// Betraege sind ganze Rappen wie im ganzen Projekt, der Zinssatz ist
+// ein Prozentwert und darum eine Kommazahl.
 internal class Zinsrechner
 {
-    public static decimal Jahreszins(decimal kapital, decimal satzProzent)
+    public static int Jahreszins(int rappen, decimal satzProzent)
     {
-        return kapital * satzProzent / 100m;
+        return (int)Math.Round(rappen * satzProzent / 100m);
     }
 
-    public static decimal Endkapital(decimal kapital, decimal satzProzent, int jahre)
+    public static int Endkapital(int rappen, decimal satzProzent, int jahre)
     {
-        decimal ergebnis = kapital;
+        int ergebnis = rappen;
 
         for (int jahr = 0; jahr < jahre; jahr++)
         {
@@ -19,10 +21,5 @@ internal class Zinsrechner
         }
 
         return ergebnis;
-    }
-
-    public static int Addiere(int a, int b)
-    {
-        return a + b;
     }
 }

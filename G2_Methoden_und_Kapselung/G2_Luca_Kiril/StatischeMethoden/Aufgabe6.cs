@@ -6,19 +6,21 @@ internal class Aufgabe6
     {
         Console.WriteLine("=== Aufgabe 6: Statische Methoden ===\n");
 
-        // Aufruf direkt über die Klasse, ohne Objekt
-        int summe = Zinsrechner.Addiere(3, 4);
-        decimal zins = Zinsrechner.Jahreszins(5000m, 1.5m);
-        decimal endkapital = Zinsrechner.Endkapital(5000m, 1.5m, 10);
+        int kapital = 500000;
+        decimal satzProzent = 1.5m;
+        int jahre = 10;
 
-        Console.WriteLine($"Zinsrechner.Addiere(3, 4)                  = {summe}");
-        Console.WriteLine($"Zinsrechner.Jahreszins(5000, 1.5)          = {zins:0.00} CHF");
-        Console.WriteLine($"Zinsrechner.Endkapital(5000, 1.5, 10)      = {endkapital:0.00} CHF");
+        Console.WriteLine($"Sparkonto: {Geld.AlsText(kapital)} Startkapital, " +
+                          $"{satzProzent} % Zins pro Jahr, Laufzeit {jahre} Jahre.\n");
 
-        Console.WriteLine("\nKein new nötig, weil die Methoden zur Klasse gehören");
-        Console.WriteLine("und nicht zu einem einzelnen Objekt. Sie rechnen nur mit");
-        Console.WriteLine("ihren Parametern und greifen auf keine Instanzdaten zu.");
-        Console.WriteLine("Endkapital ruft intern Jahreszins auf, ebenfalls ohne Objekt.");
-        Console.WriteLine();
+        // Aufruf direkt über die Klasse, ohne new
+        int ersterZins = Zinsrechner.Jahreszins(kapital, satzProzent);
+        int endkapital = Zinsrechner.Endkapital(kapital, satzProzent, jahre);
+
+        Console.WriteLine($"  {"Zins im ersten Jahr",-24}{Geld.AlsText(ersterZins),12}");
+        Console.WriteLine($"  {$"Kapital nach {jahre} Jahren",-24}{Geld.AlsText(endkapital),12}");
+        Console.WriteLine($"  {"Zins insgesamt",-24}{Geld.AlsText(endkapital - kapital),12}");
+
+        Console.WriteLine("\nBeide Zahlen kommen aus Zinsrechner, aufgerufen ohne new.\n");
     }
 }
