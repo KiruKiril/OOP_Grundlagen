@@ -4,7 +4,7 @@ namespace G2_Luca_Kiril.StatischeMethoden;
 // Darum braucht es hier kein new Zinsrechner().
 // Betraege sind ganze Rappen wie im ganzen Projekt, der Zinssatz ist
 // ein Prozentwert und darum eine Kommazahl.
-internal class Zinsrechner
+internal static class Zinsrechner
 {
     public static int Jahreszins(int rappen, decimal satzProzent)
     {

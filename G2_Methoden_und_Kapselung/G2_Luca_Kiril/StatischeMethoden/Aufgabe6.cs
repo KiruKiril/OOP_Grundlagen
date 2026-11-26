@@ -6,7 +6,7 @@ internal class Aufgabe6
     {
         Console.WriteLine("=== Aufgabe 6: Statische Methoden ===\n");
 
-        int kapital = 500000;
+        int kapital = 500000;          // 5000.00 CHF
         decimal satzProzent = 1.5m;
         int jahre = 10;
 
