@@ -23,10 +23,8 @@ internal class Beispieldaten
         Fahrschueler mia = new Fahrschueler("Mia Huber",
             new DateTimeOffset(2009, 1, 9, 0, 0, 0, TimeSpan.Zero));
 
-        Fahrzeug golf = new Fahrzeug("VW", "Golf", "ZH 123 456", 2021, 48200,
-            "Handschaltung");
-        Fahrzeug corsa = new Fahrzeug("Opel", "Corsa", "ZH 654 321", 2015, 115300,
-            "Automat");
+        Fahrzeug golf = new Fahrzeug("VW", "Golf", "ZH 123 456", 48200);
+        Fahrzeug corsa = new Fahrzeug("Opel", "Corsa", "ZH 654 321", 115300);
 
         Fahrschule schule = new Fahrschule("Fahrschule Drive Easy",
             "Bahnhofstrasse 10, 8001 Zürich");

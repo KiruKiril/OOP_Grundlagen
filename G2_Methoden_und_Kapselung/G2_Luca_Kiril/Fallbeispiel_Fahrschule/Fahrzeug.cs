@@ -1,50 +1,34 @@
 namespace G2_Luca_Kiril.Fallbeispiel_Fahrschule;
 
 // Aufgabe 5: konsequent gekapselte Klasse.
-// Das Geheimnis der Klasse ist der Kilometerstand. Er ist privat und kann
-// von aussen nur ueber KilometerFahren wachsen, nie sinken oder springen.
+// Das Geheimnis ist der Kilometerstand. Er liegt in einem privaten Feld,
+// ist nach aussen nur lesbar und wachst einzig ueber KilometerFahren.
 internal class Fahrzeug
 {
     private readonly string marke;
     private readonly string modell;
-    private string kontrollschild;
-    private int baujahr;
+    private readonly string kontrollschild;
     private int kilometerStand;
     private DateTimeOffset letzteAenderung = DateTimeOffset.Now;
 
     public Fahrzeug(string marke, string modell, string kontrollschild,
-                    int baujahr, int kilometerStand, string getriebe)
+                    int kilometerStand)
     {
-        this.marke = marke;
-        this.modell = modell;
-        this.kontrollschild = kontrollschild;
-        Baujahr = baujahr;
-        Getriebe = getriebe;
-
         if (kilometerStand < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(kilometerStand),
                 "Der Kilometerstand darf nicht negativ sein.");
         }
 
+        this.marke = marke;
+        this.modell = modell;
+        this.kontrollschild = kontrollschild;
         this.kilometerStand = kilometerStand;
     }
 
-    public string Getriebe { get; private set; }
-
-    public int Baujahr
+    public string Bezeichnung
     {
-        get { return baujahr; }
-        private set
-        {
-            if (value < 1900 || value > DateTimeOffset.Now.Year)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value),
-                    "Das Baujahr muss zwischen 1900 und heute liegen.");
-            }
-
-            baujahr = value;
-        }
+        get { return $"{marke} {modell} ({kontrollschild})"; }
     }
 
     public int KilometerStand
@@ -55,19 +39,6 @@ internal class Fahrzeug
     public DateTimeOffset LetzteAenderung
     {
         get { return letzteAenderung; }
-    }
-
-    public string Bezeichnung
-    {
-        get
-        {
-            if (string.IsNullOrWhiteSpace(kontrollschild))
-            {
-                return $"{marke} {modell}";
-            }
-
-            return $"{marke} {modell} ({kontrollschild})";
-        }
     }
 
     // Einzige Tuer nach innen: prueft den Wert und fuehrt danach den

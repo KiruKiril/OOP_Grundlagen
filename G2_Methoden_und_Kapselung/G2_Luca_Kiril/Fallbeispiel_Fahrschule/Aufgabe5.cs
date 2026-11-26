@@ -6,26 +6,19 @@ internal class Aufgabe5
     {
         Console.WriteLine("=== Aufgabe 5: Kapselung im eigenen Fallbeispiel ===\n");
 
-        Console.WriteLine("Gekapselte Klasse: Fahrzeug");
-        Console.WriteLine("Das Geheimnis ist der Kilometerstand. Er liegt in einem privaten");
-        Console.WriteLine("Feld und hat nach aussen nur einen Getter. Verändern lässt er sich");
-        Console.WriteLine("einzig über KilometerFahren, und dort gilt die Regel, dass nur");
-        Console.WriteLine("positive Strecken zählen. Deshalb kann ein Fahrzeug nie einen");
-        Console.WriteLine("kleineren Kilometerstand melden als vorher, was bei einem");
-        Console.WriteLine("öffentlichen Feld jederzeit möglich wäre.\n");
+        Console.WriteLine("Das Geheimnis der Klasse Fahrzeug ist der Kilometerstand: er ist");
+        Console.WriteLine("privat und wächst einzig über KilometerFahren, damit kein Fahrzeug");
+        Console.WriteLine("je einen kleineren Stand melden kann als vorher.\n");
 
-        Fahrzeug golf = new Fahrzeug("VW", "Golf", "ZH 123 456", 2021, 48200,
-            "Handschaltung");
+        Fahrzeug golf = new Fahrzeug("VW", "Golf", "ZH 123 456", 48200);
 
-        Console.WriteLine($"Fahrzeug: {golf.Bezeichnung}");
-        Console.WriteLine($"Start: {golf.KilometerStand} km, " +
-                          $"letzte Änderung {golf.LetzteAenderung:HH:mm:ss}");
+        Console.WriteLine($"{golf.Bezeichnung}");
+        Console.WriteLine($"  Start:        {golf.KilometerStand} km " +
+                          $"(Stand {golf.LetzteAenderung:HH:mm:ss.fff})");
 
         golf.KilometerFahren(120);
-        Console.WriteLine($"Nach 120 km: {golf.KilometerStand} km, " +
-                          $"letzte Änderung {golf.LetzteAenderung:HH:mm:ss}");
-
-        Console.WriteLine("\nUngültige Zugriffe:");
+        Console.WriteLine($"  Nach 120 km:  {golf.KilometerStand} km " +
+                          $"(Stand {golf.LetzteAenderung:HH:mm:ss.fff})");
 
         try
         {
@@ -33,24 +26,10 @@ internal class Aufgabe5
         }
         catch (ArgumentOutOfRangeException ex)
         {
-            Console.WriteLine($"  abgelehnt: {ex.Message.Split('(')[0].Trim()}");
+            Console.WriteLine($"\n-50 km abgelehnt: {ex.Message.Split('(')[0].Trim()}");
         }
 
-        try
-        {
-            golf.KilometerFahren(0);
-        }
-        catch (ArgumentOutOfRangeException ex)
-        {
-            Console.WriteLine($"  abgelehnt: {ex.Message.Split('(')[0].Trim()}");
-        }
-
-        Console.WriteLine($"\nKilometerstand unverändert: {golf.KilometerStand} km");
-        Console.WriteLine("Ein direktes golf.KilometerStand = 100 lässt der Compiler");
-        Console.WriteLine("nicht zu, weil die Eigenschaft keinen Setter hat.");
-        Console.WriteLine("\nDie Folgeaktion im Zeitstempel ist der Trigger: wer fährt,");
-        Console.WriteLine("aktualisiert automatisch das Datum der letzten Änderung,");
-        Console.WriteLine("ohne selbst daran denken zu müssen.");
-        Console.WriteLine();
+        // golf.KilometerStand = 100;  <- laesst der Compiler nicht zu, kein Setter.
+        Console.WriteLine($"Kilometerstand bleibt bei {golf.KilometerStand} km.\n");
     }
 }
