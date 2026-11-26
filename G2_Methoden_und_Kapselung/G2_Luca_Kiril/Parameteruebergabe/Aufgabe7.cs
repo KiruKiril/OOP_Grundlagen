@@ -7,27 +7,37 @@ internal class Aufgabe7
         Console.WriteLine("=== Aufgabe 7: byValue / byReference bei Parametern ===\n");
 
         int a = 5;
+        int aVorher = a;
         Adding1(a);
-
-        Console.WriteLine("Werttyp int");
-        Console.WriteLine("  Vorhersage:  5");
-        Console.WriteLine($"  Tatsächlich: {a}\n");
+        Block("Werttyp int, Adding1(a) erhöht a um 1",
+            $"{aVorher}", "5", $"{a}");
 
         Buch buch = new Buch { Titel = "C#" };
+        string titelVorher = buch.Titel;
         RenameBuch(buch);
-
-        Console.WriteLine("Referenztyp Buch");
-        Console.WriteLine("  Vorhersage:  Neuer Titel");
-        Console.WriteLine($"  Tatsächlich: {buch.Titel}\n");
+        Block("Referenztyp Buch, RenameBuch(buch) setzt den Titel neu",
+            titelVorher, "Neuer Titel", buch.Titel);
 
         int b = 5;
+        int bVorher = b;
         Adding1MitRef(ref b);
-
-        Console.WriteLine("Werttyp int mit ref");
-        Console.WriteLine("  Vorhersage:  6");
-        Console.WriteLine($"  Tatsächlich: {b}\n");
+        Block("Werttyp int mit ref, Adding1MitRef(ref b) erhöht b um 1",
+            $"{bVorher}", "6", $"{b}");
 
         Erklaerung();
+    }
+
+    // Das Fazit wird aus den beiden Werten ermittelt, nicht hingeschrieben.
+    private static void Block(string titel, string vorher, string vorhersage,
+                              string nachher)
+    {
+        Console.WriteLine(titel);
+        Console.WriteLine($"  vorher       {vorher}");
+        Console.WriteLine($"  Vorhersage   {vorhersage}");
+        Console.WriteLine($"  nachher      {nachher}");
+        Console.WriteLine(vorher == nachher
+            ? "  -> Das Original hat die Änderung nicht mitbekommen.\n"
+            : "  -> Das Original wurde mitgeändert.\n");
     }
 
     private static void Adding1(int a)
@@ -57,7 +67,7 @@ internal class Aufgabe7
         Console.WriteLine("Warum der Buchtitel sich ändert");
         Console.WriteLine("Kopiert wird auch hier, aber kopiert wird die Adresse des Objekts.");
         Console.WriteLine("Beide Adressen zeigen auf dasselbe Buch, darum ändert RenameBuch");
-        Console.WriteLine("genau jenes Objekt, das der Aufrufer in der Hand hält.\n");
+        Console.WriteLine("genau jenes Buch, das der Aufrufer in der Hand hält.\n");
 
         Console.WriteLine("Seiteneffekt");
         Console.WriteLine("RenameBuch gibt nichts zurück und sieht am Aufruf harmlos aus,");
