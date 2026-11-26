@@ -2,5 +2,5 @@ namespace G2_Luca_Kiril.Parameteruebergabe;
 
 internal class Buch
 {
-    public string Titel;
+    public string Titel { get; set; }
 }
